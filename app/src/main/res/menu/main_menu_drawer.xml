@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<group>
+
+    <item
+        android:title="@string/create_new_estate"
+        android:id="@+id/create_estate">
+    </item>
+
+    <item
+        android:title="@string/list_estate"
+        android:id="@+id/list_estate">
+    </item>
+
+    <item
+        android:title="@string/search_estate_drawer"
+        android:id="@+id/search_estate">
+    </item>
+
+    <item
+        android:title="@string/map_drawer"
+        android:id="@+id/map_menu_drawer">
+    </item>
+
+    <item
+        android:title="@string/simulateur_pret"
+        android:id="@+id/simulateur_pret">
+    </item>
+
+    <item
+        android:title="@string/settings"
+        android:id="@+id/settings">
+    </item>
+
+</group>
+
+</menu>

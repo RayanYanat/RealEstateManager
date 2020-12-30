@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">RealEstateManager</string>
+    <string name="search_estate">search_estate</string>
+    <string name="edit_estate">edit_estate</string>
+    <string name="simulateur_pret">simulateur pret</string>
+    <string name="settings">settings</string>
+    <string name="realestatemanager">RealEstateManager</string>
+    <string name="create_new_estate">create new estate</string>
+    <string name="list_estate">list estate</string>
+    <string name="search_estate_drawer">search estate</string>
+    <string name="map_drawer">map</string>
+</resources>
