@@ -11,8 +11,11 @@ class EstateRepository (private val database : RoomDb) {
         return database.estateDao().getAllEstateInfo()
     }
 
-     fun insert(estate: EstateEntity) {
+     fun insertEstate(estate: EstateEntity) {
         database.estateDao().insertEstate(estate)
     }
 
+    fun updateEstate(estate: EstateEntity?){
+        database.estateDao().updateEstate(estate)
+    }
 }

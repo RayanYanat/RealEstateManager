@@ -12,7 +12,8 @@ abstract class RoomDb : RoomDatabase(){
 
     companion object {
         private var INSTANCE: RoomDb? = null
-        fun getAppDatabase(context: Context): RoomDb? {
+
+        fun getAppDatabase(context: Context): RoomDb {
 
             if (INSTANCE == null) {
 
@@ -23,7 +24,7 @@ abstract class RoomDb : RoomDatabase(){
                     .build()
 
             }
-            return INSTANCE
+            return INSTANCE as RoomDb
         }
     }
 

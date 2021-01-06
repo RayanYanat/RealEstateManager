@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "estateInfo")
 data class EstateEntity (
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id : Int = 0,
+
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "price") val price: String,
     @ColumnInfo(name = "surface") val surface: String,
@@ -21,6 +21,8 @@ data class EstateEntity (
     @ColumnInfo(name = "date of sale") val dateOfSale: String?,
     @ColumnInfo(name = "agent name") val agentName: String,
     @ColumnInfo(name = "city") val city: String,
-    @ColumnInfo(name = "Photo") val name: String?
+    @ColumnInfo(name = "Photo") val photo: String?
 
-    )
+    ){
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") var id : Int = 0
+}
