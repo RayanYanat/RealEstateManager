@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "estateInfo")
-data class EstateEntity (
+data class  EstateEntity(
 
     @ColumnInfo(name = "type") val type: String,
     @ColumnInfo(name = "price") val price: String,

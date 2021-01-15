@@ -1,8 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/type"
+            android:textSize="16sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/detail_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="house"
+            android:textSize="16sp">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="city: "
+            android:textSize="16sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/detail_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="paris"
+            android:textSize="16sp">
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="price: "
+            android:textSize="16sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/detail_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1000"
+            android:textSize="16sp">
+        </TextView>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,9 +94,10 @@
         </TextView>
 
         <TextView
+            android:id="@+id/detail_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+            android:text="zz"
             android:textSize="16sp">
         </TextView>
 
@@ -42,6 +118,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/surface_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="750 sq m"
@@ -64,6 +141,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/nb_room_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="8"
@@ -86,6 +164,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/nb_bedroom_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="4"
@@ -108,6 +187,7 @@
         </TextView>
 
         <TextView
+            android:id="@+id/nb_bathroom_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="2"
@@ -124,12 +204,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="location: "
+            android:text="address: "
             android:textSize="16sp">
 
         </TextView>
 
         <TextView
+            android:id="@+id/address_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="5 rue bla bla bla"
@@ -137,6 +218,106 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="status: "
+            android:textSize="16sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/status_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="dispo"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="agent: "
+            android:textSize="16sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/agent_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="agent"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="date of creation: "
+            android:textSize="16sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/beginDate_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="agent"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="sale date: "
+            android:textSize="16sp">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/endDate_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="agent"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/checkbox_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="checkbox"
+        android:textSize="16sp"/>
 
     <ImageView
         android:layout_width="wrap_content"
@@ -147,3 +328,5 @@
 
 
 </LinearLayout>
+
+</ScrollView>

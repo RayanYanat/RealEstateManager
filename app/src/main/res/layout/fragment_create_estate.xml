@@ -133,14 +133,14 @@
                     android:id="@+id/estate_school"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tag="arts"
+                    android:tag="école"
                     android:text="école" />
 
                 <CheckBox
                     android:id="@+id/estate_commerce"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tag="business"
+                    android:tag="commerce"
                     android:text="commerce" />
 
 
@@ -157,14 +157,14 @@
                     android:id="@+id/estate_parc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tag="politics"
+                    android:tag="parc"
                     android:text="parc" />
 
                 <CheckBox
                     android:id="@+id/estate_gare"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:tag="sports"
+                    android:tag="gare"
                     android:text="gare" />
 
 
@@ -172,7 +172,9 @@
 
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+
+            xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/linearLayout_search_date"
             android:layout_width="match_parent"
@@ -194,7 +196,7 @@
                     android:text="date de mise en vente" />
 
                 <EditText
-                    android:id="@+id/search_begin_date"
+                    android:id="@+id/create_begin_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -220,7 +222,7 @@
                     android:text="date de vente" />
 
                 <EditText
-                    android:id="@+id/search_end_date"
+                    android:id="@+id/create_end_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"

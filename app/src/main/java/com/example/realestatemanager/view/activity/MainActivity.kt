@@ -1,7 +1,6 @@
 package com.example.realestatemanager.view.activity
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -37,11 +36,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
     private fun configureDrawerLayout(){
         val toggle = ActionBarDrawerToggle(
             this,
@@ -69,22 +63,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        if (id == R.id.edit_estate){
-            Toast.makeText(this, "search icon clicked ", Toast.LENGTH_SHORT).show()
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
-
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         val createEstateFragment = CreateEstateFragment()
         val fragmentSearchEstate = FragmentSearchEstate()
+        val fragmentListEstate = FragmentListEstate()
 
 
         when(item.itemId){
@@ -105,6 +88,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.list_estate -> {
                 Toast.makeText(this, "item clicked", Toast.LENGTH_SHORT).show()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.main_fragment,
+                    fragmentListEstate
+                ).commit()
             }
             R.id.map_menu_drawer -> {
                 Toast.makeText(this, "item clicked", Toast.LENGTH_SHORT).show()

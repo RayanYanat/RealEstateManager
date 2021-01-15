@@ -9,4 +9,5 @@
     <string name="list_estate">list estate</string>
     <string name="search_estate_drawer">search estate</string>
     <string name="map_drawer">map</string>
+    <string name="type">type:</string>
 </resources>

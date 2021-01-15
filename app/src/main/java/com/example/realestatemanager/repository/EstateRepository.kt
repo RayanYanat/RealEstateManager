@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.database.RoomDb
 
-class EstateRepository (private val database : RoomDb) {
+class EstateRepository(private val database: RoomDb) {
 
 
     fun getAllEstateInfo(): LiveData<List<EstateEntity>> {
@@ -17,5 +17,9 @@ class EstateRepository (private val database : RoomDb) {
 
     fun updateEstate(estate: EstateEntity?){
         database.estateDao().updateEstate(estate)
+    }
+
+    fun getEstate(userId: Int): LiveData<EstateEntity> {
+        return database.estateDao().getEstate(userId)
     }
 }

@@ -8,7 +8,7 @@ import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import kotlinx.android.synthetic.main.esate_item.view.*
 
-class RecyclerAdapter(private val listEstate: List<EstateEntity>) : RecyclerView.Adapter<RecyclerAdapter.EsateViewHolder>() {
+class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: ItemClickListener) : RecyclerView.Adapter<RecyclerAdapter.EsateViewHolder>() {
 
    private lateinit var  mData: List<EstateEntity>
 
@@ -23,11 +23,17 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>) : RecyclerView
     override fun onBindViewHolder(holder: RecyclerAdapter.EsateViewHolder, position: Int) {
         var estateItem = mData[position]
 
+        holder.itemView.setOnClickListener(){
+            listener.onItemClickListener(estateItem)
+        }
+
         holder.itemCity.text = estateItem.city
 
         holder.itemPrice.text = estateItem.price
 
         holder.itemType.text = estateItem.type
+
+        holder.itemMainPic.visibility = View.VISIBLE
     }
 
     override fun getItemCount(): Int {
@@ -38,12 +44,11 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>) : RecyclerView
         val itemType = view.list_item_type
         val itemPrice = view.list_item_price
         val itemCity = view.list_item_city
-      //  val itemMainPic = view.list_item_main_pic
+        val itemMainPic = view.list_item_main_pic
 
-        fun bind(data: EstateEntity){
-            itemType.text = data.type
-            itemPrice.text = data.price
-            itemCity.text = data.city
-        }
+    }
+
+    interface ItemClickListener{
+        fun onItemClickListener(estate: EstateEntity)
     }
 }
