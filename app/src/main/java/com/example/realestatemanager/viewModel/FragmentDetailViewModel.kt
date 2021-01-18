@@ -15,8 +15,8 @@ class FragmentDetailViewModel(
 
     lateinit var  currentEstate: LiveData<EstateEntity>
 
-    fun init(userId: Int) {
-        currentEstate = itemDataSource.getEstate(userId)
+    fun init(estateId: Int) {
+        currentEstate = itemDataSource.getEstate(estateId)
     }
 
     fun getEstate(userId: Int): LiveData<EstateEntity> {

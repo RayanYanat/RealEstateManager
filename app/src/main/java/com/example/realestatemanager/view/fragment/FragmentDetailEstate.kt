@@ -1,6 +1,7 @@
 package com.example.realestatemanager.view.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -9,17 +10,24 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.injections.Injection
+import com.example.realestatemanager.model.Result
+import com.example.realestatemanager.utils.GeocodeCall
+import com.example.realestatemanager.utils.GeocodeCall.FetchGeocodeInfo.fetchGeocodeInfo
 import com.example.realestatemanager.viewModel.FragmentDetailViewModel
 import kotlinx.android.synthetic.main.fragment_detail_estate.*
 
-class FragmentDetailEstate : Fragment() {
+class FragmentDetailEstate : Fragment(), GeocodeCall.Callbacks {
 
     private lateinit var mViewModel: FragmentDetailViewModel
     private val CURRENT_ESTATE_ID = "ESTATE_ID"
+    private val API_KEY = "api-key=AIzaSyDnkdbBMqFIXmCnIcYm0HbU85wRsA35u6c"
+
+    private lateinit var result :EstateEntity
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
+        executeRetrofitHttpRequest()
         super.onCreate(savedInstanceState)
     }
 
@@ -35,11 +43,13 @@ class FragmentDetailEstate : Fragment() {
             )
         this.mViewModel.init(currentEstateId)
         getCurrentEstate(currentEstateId)
+
         return inflater.inflate(R.layout.fragment_detail_estate, container, false)
+
     }
 
     private fun getCurrentEstate(estateId: Int) {
-        this.mViewModel.getEstate(estateId).observe(viewLifecycleOwner, Observer {updateUi(it)})
+        this.mViewModel.getEstate(estateId).observe(viewLifecycleOwner, Observer { updateUi(it) })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -47,8 +57,8 @@ class FragmentDetailEstate : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun updateUi (result : EstateEntity){
-         detail_description.text = result.description
+    private fun updateUi(result: EstateEntity) {
+        detail_description.text = result.description
         surface_detail.text = result.surface
         nb_room_detail.text = result.nbPiece
         nb_bathroom_detail.text = result.nbBathroom
@@ -62,6 +72,11 @@ class FragmentDetailEstate : Fragment() {
         beginDate_detail.text = result.entryDate
         endDate_detail.text = result.dateOfSale
         checkbox_detail.text = result.pointOfInterest.toString()
+
+        this.result = result
+
+        executeRetrofitHttpRequest()
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -69,7 +84,7 @@ class FragmentDetailEstate : Fragment() {
         val currentEstateId = arguments!!.getInt("ESTATE_ID")
 
 
-        if (id == R.id.edit_estate){
+        if (id == R.id.edit_estate) {
             Toast.makeText(context, "search icon clicked ", Toast.LENGTH_SHORT).show()
             val bundle = Bundle()
             val createEstateFragment = CreateEstateFragment()
@@ -81,6 +96,20 @@ class FragmentDetailEstate : Fragment() {
 
         return super.onOptionsItemSelected(item)
 
+    }
+
+    private fun executeRetrofitHttpRequest() {
+        val address = result.address
+        Log.d("TAG", "Response = responseGeocodeRequest$address")
+        fetchGeocodeInfo(this, address, API_KEY)
+    }
+
+    override fun onResponse(geocodeInfo: Result?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailure() {
+        TODO("Not yet implemented")
     }
 
 }
