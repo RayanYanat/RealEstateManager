@@ -10,24 +10,20 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.injections.Injection
-import com.example.realestatemanager.model.Result
-import com.example.realestatemanager.utils.GeocodeCall
-import com.example.realestatemanager.utils.GeocodeCall.FetchGeocodeInfo.fetchGeocodeInfo
 import com.example.realestatemanager.viewModel.FragmentDetailViewModel
 import kotlinx.android.synthetic.main.fragment_detail_estate.*
 
-class FragmentDetailEstate : Fragment(), GeocodeCall.Callbacks {
+class FragmentDetailEstate : Fragment() {
 
     private lateinit var mViewModel: FragmentDetailViewModel
     private val CURRENT_ESTATE_ID = "ESTATE_ID"
-    private val API_KEY = "api-key=AIzaSyDnkdbBMqFIXmCnIcYm0HbU85wRsA35u6c"
+    private val apiKey = "AIzaSyDnkdbBMqFIXmCnIcYm0HbU85wRsA35u6c"
 
-    private lateinit var result :EstateEntity
+    private lateinit var result: EstateEntity
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
-        executeRetrofitHttpRequest()
         super.onCreate(savedInstanceState)
     }
 
@@ -74,10 +70,15 @@ class FragmentDetailEstate : Fragment(), GeocodeCall.Callbacks {
         checkbox_detail.text = result.pointOfInterest.toString()
 
         this.result = result
+        val address = result.address + " " + result.city
+        Log.d("TAG", "address : $address ")
 
-        executeRetrofitHttpRequest()
+        mViewModel.getGeocodedLoccation(address,apiKey)
+
+        retrieveAddressLocation()
 
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
@@ -98,18 +99,19 @@ class FragmentDetailEstate : Fragment(), GeocodeCall.Callbacks {
 
     }
 
-    private fun executeRetrofitHttpRequest() {
-        val address = result.address
-        Log.d("TAG", "Response = responseGeocodeRequest$address")
-        fetchGeocodeInfo(this, address, API_KEY)
+   private  fun retrieveAddressLocation() {
+        mViewModel.response.observe(viewLifecycleOwner, Observer {
+            if (it != null)
+                Toast.makeText(context,"Success wile accessing the API", Toast.LENGTH_SHORT).show()
+
+            val lat  = it.geometry?.location?.lat
+            val lng = it.geometry?.location?.lng
+
+            Log.d("TAG", "location : $lat$lng")
+
+
+        })
     }
 
-    override fun onResponse(geocodeInfo: Result?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun onFailure() {
-        TODO("Not yet implemented")
-    }
 
 }
