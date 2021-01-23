@@ -1,5 +1,6 @@
 package com.example.realestatemanager.utils;
 
+import com.example.realestatemanager.model.Example;
 import com.example.realestatemanager.model.Result;
 
 import retrofit2.Call;
@@ -10,8 +11,7 @@ public interface GeocodeService {
 
 
     @GET("json?")
-    Call<Result> getGeocodeLocation (@Query("address")String address,@Query("key") String key);
-
+    Call<Example> getGeocodeLocation (@Query("address")String address, @Query("key") String key);
 
 
 }

@@ -11,20 +11,31 @@ import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.injections.Injection
 import com.example.realestatemanager.viewModel.FragmentDetailViewModel
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_detail_estate.*
 
-class FragmentDetailEstate : Fragment() {
+
+class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
 
     private lateinit var mViewModel: FragmentDetailViewModel
     private val CURRENT_ESTATE_ID = "ESTATE_ID"
     private val apiKey = "AIzaSyDnkdbBMqFIXmCnIcYm0HbU85wRsA35u6c"
 
     private lateinit var result: EstateEntity
+    private var googleMap: GoogleMap? = null
+
+
+    private var lat : Double? = 0.0
+    private var lng : Double? = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+
+
     }
 
     override fun onCreateView(
@@ -32,6 +43,7 @@ class FragmentDetailEstate : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val currentEstateId = arguments!!.getInt("ESTATE_ID")
         mViewModel =
             ViewModelProviders.of(this, Injection.provideViewModelFactory(this.context!!)).get(
@@ -73,9 +85,11 @@ class FragmentDetailEstate : Fragment() {
         val address = result.address + " " + result.city
         Log.d("TAG", "address : $address ")
 
-        mViewModel.getGeocodedLoccation(address,apiKey)
+        mViewModel.getGeocodedLocation(address, apiKey)
 
-        retrieveAddressLocation()
+        val mapFragment = childFragmentManager.findFragmentById(R.id.detail_fragment_map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
 
     }
 
@@ -99,18 +113,36 @@ class FragmentDetailEstate : Fragment() {
 
     }
 
-   private  fun retrieveAddressLocation() {
+   private  fun retrieveAddressLocation(googleMap: GoogleMap) {
         mViewModel.response.observe(viewLifecycleOwner, Observer {
             if (it != null)
-                Toast.makeText(context,"Success wile accessing the API", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Success wile accessing the API", Toast.LENGTH_SHORT).show()
 
-            val lat  = it.geometry?.location?.lat
-            val lng = it.geometry?.location?.lng
-
-            Log.d("TAG", "location : $lat$lng")
+            lat = it.geometry?.location?.lat
+            lng = it.geometry?.location?.lng
+            if(lat != null && lng != null) {
+                val latLng = LatLng(lat!!, lng!!)
+                val markerOptions: MarkerOptions = MarkerOptions().position(latLng).title("Current Estate")
+                val zoomLevel = 17.0f //This goes up to 21
+                googleMap.addMarker(markerOptions)
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
+            }
+            Log.d("TAG", "location : $lat $lng")
+            Log.d("TAG", "result : $it")
 
 
         })
+    }
+
+    override fun onMapReady(p0: GoogleMap?) {
+        this.googleMap = p0
+        //Adding markers to map
+
+        googleMap?.let {
+
+            retrieveAddressLocation(it)
+
+        }
     }
 
 

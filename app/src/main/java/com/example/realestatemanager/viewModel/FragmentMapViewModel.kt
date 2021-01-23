@@ -9,28 +9,18 @@ import com.example.realestatemanager.repository.EstateRepository
 import com.example.realestatemanager.repository.GeocodeRepository
 import java.util.concurrent.Executor
 
-class FragmentDetailViewModel(
-    app: Application,
-    private val itemDataSource: EstateRepository,
-    private val executor: Executor
-): AndroidViewModel(app){
+class FragmentMapViewModel(app: Application, private val itemDataSource: EstateRepository,private val executor: Executor): AndroidViewModel(app) {
 
-    lateinit var  currentEstate: LiveData<EstateEntity>
+     val response : LiveData<Result>
+
+    fun getAllEstate(): LiveData<List<EstateEntity>> {
+        return itemDataSource.getAllEstateInfo()
+    }
+
     private val repository = GeocodeRepository(app)
-    val response : LiveData<Result>
 
     init {
         response = repository.response
-    }
-
-
-
-    fun init(estateId: Int) {
-        currentEstate = itemDataSource.getEstate(estateId)
-    }
-
-    fun getEstate(userId: Int): LiveData<EstateEntity> {
-        return this.currentEstate
     }
 
     fun getGeocodedLocation( address : String, key : String) {

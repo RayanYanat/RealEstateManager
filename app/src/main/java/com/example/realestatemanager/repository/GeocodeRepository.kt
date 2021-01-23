@@ -3,6 +3,7 @@ package com.example.realestatemanager.repository
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import com.example.realestatemanager.model.Example
 import com.example.realestatemanager.model.Result
 import com.example.realestatemanager.utils.GeocodeService
 import retrofit2.Call
@@ -25,13 +26,13 @@ class GeocodeRepository(val application: Application) {
 
         val service = retrofit.create(GeocodeService::class.java)
 
-        service.getGeocodeLocation(address,key).enqueue(object  : Callback<Result> {
-            override fun onFailure(call: Call<Result>, t: Throwable) {
+        service.getGeocodeLocation(address,key).enqueue(object  : Callback<Example> {
+            override fun onFailure(call: Call<Example>, t: Throwable) {
                 Toast.makeText(application,"Error wile accessing the API", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onResponse(call: Call<Result>, resp: Response<Result>) {
-                response.value = resp.body()
+            override fun onResponse(call: Call<Example>, resp: Response<Example>) {
+                response.value = (resp.body() as Example).results?.get(0)
             }
 
         })

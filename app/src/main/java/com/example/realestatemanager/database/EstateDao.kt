@@ -20,4 +20,7 @@ interface EstateDao {
 
     @Update
     fun updateEstate(estate: EstateEntity?)
+
+ //   @RawQuery ("SELECT * FROM estateInfo WHERE price >= ")
+   // }
 }

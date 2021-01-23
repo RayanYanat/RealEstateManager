@@ -12,6 +12,7 @@ import com.example.realestatemanager.R
 import com.example.realestatemanager.view.fragment.CreateEstateFragment
 import com.example.realestatemanager.view.fragment.FragmentListEstate
 import com.example.realestatemanager.view.fragment.FragmentSearchEstate
+import com.example.realestatemanager.view.fragment.MapFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val createEstateFragment = CreateEstateFragment()
         val fragmentSearchEstate = FragmentSearchEstate()
         val fragmentListEstate = FragmentListEstate()
+        val fragmentMap = MapFragment()
 
 
         when(item.itemId){
@@ -95,6 +97,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.map_menu_drawer -> {
                 Toast.makeText(this, "item clicked", Toast.LENGTH_SHORT).show()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.main_fragment,
+                    fragmentMap
+                ).commit()
             }
             R.id.simulateur_pret -> {
                 Toast.makeText(this, "item clicked", Toast.LENGTH_SHORT).show()
