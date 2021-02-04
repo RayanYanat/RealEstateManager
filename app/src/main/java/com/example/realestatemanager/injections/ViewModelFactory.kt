@@ -4,10 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.realestatemanager.repository.EstateRepository
-import com.example.realestatemanager.viewModel.FragmentCreateViewModel
-import com.example.realestatemanager.viewModel.FragmentDetailViewModel
-import com.example.realestatemanager.viewModel.FragmentListViewModel
-import com.example.realestatemanager.viewModel.FragmentMapViewModel
+import com.example.realestatemanager.viewModel.*
 import java.util.concurrent.Executor
 
 
@@ -30,6 +27,10 @@ class ViewModelFactory(private val itemDataSource: EstateRepository, private val
 
             (modelClass.isAssignableFrom(FragmentMapViewModel::class.java)) -> {
                 FragmentMapViewModel(Application(), itemDataSource, executor)
+            }
+
+            (modelClass.isAssignableFrom(FragmentSearchViewModel::class.java)) -> {
+                FragmentSearchViewModel(Application(), itemDataSource, executor)
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class")

@@ -206,6 +206,12 @@
                     android:inputType="date"
                     tools:ignore="LabelFor" />
 
+                <Button
+                    android:id="@+id/add_picture_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="add image"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -236,6 +242,7 @@
                     android:id="@+id/create_estate_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
                     android:text="create estate"/>
 
             </LinearLayout>

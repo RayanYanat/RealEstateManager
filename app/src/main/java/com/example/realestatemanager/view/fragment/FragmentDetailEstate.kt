@@ -1,5 +1,6 @@
 package com.example.realestatemanager.view.fragment
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -7,17 +8,22 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.injections.Injection
+import com.example.realestatemanager.utils.toFRString
+import com.example.realestatemanager.view.adapter.RecyclerEstatePhoto
 import com.example.realestatemanager.viewModel.FragmentDetailViewModel
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_detail_estate.*
+import java.util.ArrayList
 
 
-class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
+class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
 
     private lateinit var mViewModel: FragmentDetailViewModel
     private val CURRENT_ESTATE_ID = "ESTATE_ID"
@@ -26,9 +32,13 @@ class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
     private lateinit var result: EstateEntity
     private var googleMap: GoogleMap? = null
 
+    private lateinit var adapter: RecyclerEstatePhoto
+    private lateinit var recyclerView: RecyclerView
 
-    private var lat : Double? = 0.0
-    private var lng : Double? = 0.0
+    private var lat: Double? = 0.0
+    private var lng: Double? = 0.0
+
+    private var imageUriList = ArrayList<Uri>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,17 +52,21 @@ class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+
+        val view: View = inflater.inflate(R.layout.fragment_detail_estate, container, false)
 
         val currentEstateId = arguments!!.getInt("ESTATE_ID")
+        recyclerView = view.findViewById(R.id.fragment_estate_list_image_recyclerview)
         mViewModel =
             ViewModelProviders.of(this, Injection.provideViewModelFactory(this.context!!)).get(
                 FragmentDetailViewModel::class.java
             )
         this.mViewModel.init(currentEstateId)
         getCurrentEstate(currentEstateId)
+        configureRecyclerView()
 
-        return inflater.inflate(R.layout.fragment_detail_estate, container, false)
+        return view
 
     }
 
@@ -66,19 +80,21 @@ class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
     }
 
     private fun updateUi(result: EstateEntity) {
+
+
         detail_description.text = result.description
-        surface_detail.text = result.surface
+        surface_detail.text = result.surface.toString()
         nb_room_detail.text = result.nbPiece
         nb_bathroom_detail.text = result.nbBathroom
         nb_bedroom_detail.text = result.nbBedroom
         address_detail.text = result.address
         detail_type.text = result.type
         detail_city.text = result.city
-        detail_price.text = result.price
+        detail_price.text = result.price.toString()
         agent_detail.text = result.agentName
         status_detail.text = result.status
-        beginDate_detail.text = result.entryDate
-        endDate_detail.text = result.dateOfSale
+        beginDate_detail.text = result.entryDate.toFRString()
+        endDate_detail.text = result.dateOfSale?.toFRString()
         checkbox_detail.text = result.pointOfInterest.toString()
 
         this.result = result
@@ -87,9 +103,29 @@ class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
 
         mViewModel.getGeocodedLocation(address, apiKey)
 
-        val mapFragment = childFragmentManager.findFragmentById(R.id.detail_fragment_map) as SupportMapFragment
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.detail_fragment_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+
+        val uriString = result.photo
+        Log.d("TAG", "uriString : $uriString ")
+
+        if (uriString != null) {
+            val listUriImage = uriString.split(",")
+            Log.d("TAG", "listUriImage : $listUriImage ")
+
+            listUriImage.forEach {
+                val uriPhoto = Uri.parse(it)
+                imageUriList.add(uriPhoto)
+                Log.d("TAG", "imageUriList : $imageUriList ")
+
+            }
+
+            adapter.setResults(imageUriList)
+            Log.d("TAG", "fullImageUriList : $imageUriList ")
+            adapter.notifyDataSetChanged()
+        }
 
     }
 
@@ -113,16 +149,17 @@ class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
 
     }
 
-   private  fun retrieveAddressLocation(googleMap: GoogleMap) {
+    private fun retrieveAddressLocation(googleMap: GoogleMap) {
         mViewModel.response.observe(viewLifecycleOwner, Observer {
             if (it != null)
                 Toast.makeText(context, "Success wile accessing the API", Toast.LENGTH_SHORT).show()
 
             lat = it.geometry?.location?.lat
             lng = it.geometry?.location?.lng
-            if(lat != null && lng != null) {
+            if (lat != null && lng != null) {
                 val latLng = LatLng(lat!!, lng!!)
-                val markerOptions: MarkerOptions = MarkerOptions().position(latLng).title("Current Estate")
+                val markerOptions: MarkerOptions =
+                    MarkerOptions().position(latLng).title("Current Estate")
                 val zoomLevel = 17.0f //This goes up to 21
                 googleMap.addMarker(markerOptions)
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel))
@@ -143,6 +180,12 @@ class FragmentDetailEstate : Fragment(),OnMapReadyCallback {
             retrieveAddressLocation(it)
 
         }
+    }
+
+    private fun configureRecyclerView() {
+        adapter = RecyclerEstatePhoto(imageUriList)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = adapter
     }
 
 

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
 
@@ -24,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="bedin date" />
+                android:text="begin date" />
 
             <EditText
                 android:id="@+id/search_begin_date"
@@ -68,7 +69,7 @@
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/checkbox_container"
+        android:id="@+id/search_checkbox_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
@@ -89,17 +90,17 @@
             android:orientation="vertical">
 
             <CheckBox
-                android:id="@+id/search_articles_arts"
+                android:id="@+id/estate_search_school"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="arts"
+                android:tag="école"
                 android:text="école" />
 
             <CheckBox
-                android:id="@+id/search_articles_business"
+                android:id="@+id/estate_search_shop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="business"
+                android:tag="commerce"
                 android:text="commerce" />
 
 
@@ -114,22 +115,23 @@
             android:orientation="vertical">
 
             <CheckBox
-                android:id="@+id/search_articles_politics"
+                android:id="@+id/estate_search_park"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="politics"
+                android:tag="parc"
                 android:text="parc" />
 
             <CheckBox
-                android:id="@+id/search_articles_sports"
+                android:id="@+id/estate_search_gare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:tag="sports"
+                android:tag="gare"
                 android:text="gare" />
         </LinearLayout>
     </LinearLayout>
 
     <EditText
+        android:id="@+id/search_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="type"/>
@@ -179,7 +181,7 @@
                 android:id="@+id/maxPrice_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="date de vente" />
+                android:text="Price max" />
 
             <EditText
                 android:id="@+id/search_max_price"
@@ -193,6 +195,53 @@
                 tools:ignore="LabelFor" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout_sold_date"
+        android:layout_width="197dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/search_esate_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:hint="state"
+            android:autofillHints=""
+            android:clickable="true"
+            android:focusable="true"
+            android:inputType="date"
+            tools:ignore="LabelFor" />
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout_state"
+        android:layout_width="197dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/search_estate_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="location"
+            android:layout_marginBottom="10dp"
+            android:autofillHints=""
+            android:clickable="true"
+            android:focusable="true"
+            android:inputType="date"
+            tools:ignore="LabelFor" />
+
+
+
+    </LinearLayout>
 
     </LinearLayout>
 

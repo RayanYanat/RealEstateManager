@@ -9,10 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.realestatemanager.R
-import com.example.realestatemanager.view.fragment.CreateEstateFragment
-import com.example.realestatemanager.view.fragment.FragmentListEstate
-import com.example.realestatemanager.view.fragment.FragmentSearchEstate
-import com.example.realestatemanager.view.fragment.MapFragment
+import com.example.realestatemanager.view.fragment.*
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
@@ -70,6 +67,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fragmentSearchEstate = FragmentSearchEstate()
         val fragmentListEstate = FragmentListEstate()
         val fragmentMap = MapFragment()
+        val fragmentLoan = LoanSimulatorFragment()
 
 
         when(item.itemId){
@@ -104,6 +102,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.simulateur_pret -> {
                 Toast.makeText(this, "item clicked", Toast.LENGTH_SHORT).show()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.main_fragment,
+                    fragmentLoan
+                ).commit()
             }
             R.id.settings -> {
                 Toast.makeText(this, "item clicked", Toast.LENGTH_SHORT).show()

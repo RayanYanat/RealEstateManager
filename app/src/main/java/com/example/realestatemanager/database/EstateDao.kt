@@ -2,6 +2,7 @@ package com.example.realestatemanager.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
 
 @Dao
 interface EstateDao {
@@ -12,6 +13,9 @@ interface EstateDao {
     @Query("SELECT * FROM estateInfo WHERE id = :userId")
     fun getEstate(userId: Int): LiveData<EstateEntity>
 
+    @RawQuery(observedEntities = [EstateEntity::class])
+    fun  getSearchEstate(query: SupportSQLiteQuery) : LiveData<List<EstateEntity>>
+
     @Insert
     fun insertEstate(estate: EstateEntity?)
 
@@ -21,6 +25,4 @@ interface EstateDao {
     @Update
     fun updateEstate(estate: EstateEntity?)
 
- //   @RawQuery ("SELECT * FROM estateInfo WHERE price >= ")
-   // }
 }

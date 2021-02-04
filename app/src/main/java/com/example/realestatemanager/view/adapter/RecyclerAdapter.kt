@@ -16,11 +16,11 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: 
        mData = data
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.EsateViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EsateViewHolder {
         return EsateViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.esate_item,parent,false))
     }
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.EsateViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EsateViewHolder, position: Int) {
         var estateItem = mData[position]
 
         holder.itemView.setOnClickListener(){
@@ -29,7 +29,7 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: 
 
         holder.itemCity.text = estateItem.city
 
-        holder.itemPrice.text = estateItem.price
+        holder.itemPrice.text = estateItem.price.toString()
 
         holder.itemType.text = estateItem.type
 

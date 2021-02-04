@@ -1,38 +1,46 @@
 package com.example.realestatemanager.view.fragment
 
+import android.R.attr
+import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.DatePicker
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.injections.Injection
+import com.example.realestatemanager.utils.toFRDate
+import com.example.realestatemanager.utils.toFRString
 import com.example.realestatemanager.viewModel.FragmentCreateViewModel
 import kotlinx.android.synthetic.main.fragment_create_estate.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+
+class CreateEstateFragment : Fragment() {
 
     private lateinit var mViewModel: FragmentCreateViewModel
     private lateinit var button: Button
     private lateinit var mCheckboxContainer: LinearLayout
+    private val RESULT_LOAD_IMG = 10
+
 
     private var day = 0
     private var month = 0
     private var year = 0
 
-    private var savedDay = 0
-    private var savedMonth = 0
-    private var savedYear = 0
+    private var photoList = ArrayList<String>()
 
 
     override fun onCreateView(
@@ -56,14 +64,15 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         val currentEstateId = arguments?.getInt("ESTATE_ID")
 
         pickDate()
+        retrieveImage()
 
         if (currentEstateId == null) {
             button.setOnClickListener {
 
                 val type = estate_type.text.toString()
                 val city = estate_city.text.toString()
-                val price = estate_price.text.toString()
-                val surface = estate_surface.text.toString()
+                val price = estate_price.text.toString().toInt()
+                val surface = estate_surface.text.toString().toInt()
                 val nbOfRoom = estate_nb_room.text.toString()
                 val nbOfBathroom = estate_nb_bathroom.text.toString()
                 val nbOfBedroom = estate_nb_bedroom.text.toString()
@@ -71,9 +80,11 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 val address = estate_adress.text.toString()
                 val statut = estate_statut.text.toString()
                 val agent = estate_agent.text.toString()
-                val entryDate = create_begin_date.text.toString()
+                val entryDate = create_begin_date.text.toString().toFRDate()
+             //   val dateOfSale = create_end_date.text.toString().toFRDate()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
+                Log.d("TAG", "InsertListImageURI : $photoList ")
 
                 val estate = EstateEntity(
                     type,
@@ -86,12 +97,11 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     address,
                     pointOfInterest,
                     statut,
-                    entryDate,
+                    entryDate!!,
                     null,
                     agent,
                     city,
-                    null
-                )
+                    photoList.toString())
                 mViewModel.createEstate(estate)
             }
         } else {
@@ -102,8 +112,8 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
                 val type = estate_type.text.toString()
                 val city = estate_city.text.toString()
-                val price = estate_price.text.toString()
-                val surface = estate_surface.text.toString()
+                val price = estate_price.text.toString().toInt()
+                val surface = estate_surface.text.toString().toInt()
                 val nbOfRoom = estate_nb_room.text.toString()
                 val nbOfBathroom = estate_nb_bathroom.text.toString()
                 val nbOfBedroom = estate_nb_bedroom.text.toString()
@@ -111,7 +121,8 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 val address = estate_adress.text.toString()
                 val statut = estate_statut.text.toString()
                 val agent = estate_agent.text.toString()
-                val entryDate = create_begin_date.text.toString()
+                val entryDate = create_begin_date.text.toString().toFRDate()
+              //  val dateOfSale = create_end_date.text.toString().toFRDate()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
 
@@ -126,11 +137,11 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     address,
                     pointOfInterest,
                     statut,
-                    entryDate,
+                    entryDate!!,
                     null,
                     agent,
                     city,
-                    null
+                    photoList.toString()
                 )
                 estate.id = currentEstateId
                 mViewModel.updateEstate(estate)
@@ -140,10 +151,11 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun updateUi(result: EstateEntity) {
+
         estate_type.setText(result.type)
         estate_city.setText(result.city)
-        estate_price.setText(result.price)
-        estate_surface.setText(result.surface)
+        estate_price.setText(result.price.toString())
+        estate_surface.setText(result.surface.toString())
         estate_nb_room.setText(result.nbPiece)
         estate_nb_bathroom.setText(result.nbBathroom)
         estate_nb_bedroom.setText(result.nbBedroom)
@@ -151,7 +163,9 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         estate_adress.setText(result.address)
         estate_statut.setText(result.status)
         estate_agent.setText(result.agentName)
-        create_begin_date.setText(result.entryDate)
+        create_begin_date.setText(result.entryDate?.toFRString())
+
+
     }
 
 
@@ -168,34 +182,26 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun pickDate() {
 
+        val sdf = SimpleDateFormat("dd/MM/yyyy")
 
         create_begin_date.setOnClickListener {
             getDateTimeCalendar()
 
-            DatePickerDialog(context!!, this, year, month, day).show()
+            DatePickerDialog(context!!, { view, year, monthOfYear, dayOfMonth ->
+                create_begin_date.setText(sdf.format(Date(year - 1900, monthOfYear, dayOfMonth)),
+                    TextView.BufferType.EDITABLE)
+            }, year, month, day).show()
 
         }
 
         create_end_date.setOnClickListener {
             getDateTimeCalendar()
 
-            DatePickerDialog(context!!, this, year, month, day).show()
+            DatePickerDialog(context!!, { view, year, monthOfYear, dayOfMonth ->
+                create_end_date.setText(sdf.format(Date(year - 1900, monthOfYear, dayOfMonth)),
+                    TextView.BufferType.EDITABLE)
+            }, year, month, day).show()
         }
-    }
-
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
-
-
-        savedDay = dayOfMonth
-        savedMonth = month
-        savedYear = year
-
-        // var dateText = "$savedDay - $savedMonth - $savedYear"
-        getDateTimeCalendar()
-
-        create_begin_date.setText(sdf.format(Date(savedYear - 1900, savedMonth, savedDay)))
     }
 
     private fun retrieveSelectedCheckbox(): List<String>? {
@@ -203,13 +209,11 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         for (i in 0 until mCheckboxContainer.childCount) {
             val view = mCheckboxContainer.getChildAt(i)
             if (view is ViewGroup) {
-                val viewGroup = view
-                for (y in 0 until viewGroup.childCount) {
-                    val viewChild = viewGroup.getChildAt(y)
+                for (y in 0 until view.childCount) {
+                    val viewChild = view.getChildAt(y)
                     if (viewChild is CheckBox) {
-                        val checkBox = viewChild
-                        if (checkBox.isChecked) {
-                            selectedCheckboxes.add(checkBox.tag.toString())
+                        if (viewChild.isChecked) {
+                            selectedCheckboxes.add(viewChild.tag.toString())
                         }
                     }
                 }
@@ -218,4 +222,26 @@ class CreateEstateFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         return selectedCheckboxes
     }
 
+    fun retrieveImage() {
+        add_picture_btn.setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_OPEN_DOCUMENT;
+            startActivityForResult(Intent.createChooser(intent, "select a picture"),
+                RESULT_LOAD_IMG);
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RESULT_LOAD_IMG) {
+            if (resultCode == RESULT_OK) {
+                val selectedImageUri: Uri? = data?.data
+                photoList.add(selectedImageUri.toString())
+                Log.d("TAG", "imageURI : ${selectedImageUri.toString()} ")
+                Log.d("TAG", "ListImageURI : $photoList ")
+
+            }
+        }
+    }
 }
