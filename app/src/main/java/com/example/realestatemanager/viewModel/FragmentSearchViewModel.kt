@@ -14,10 +14,6 @@ class FragmentSearchViewModel(app: Application, private val itemDataSource: Esta
     fun getEstatesBySearch(queryToConvert:String): LiveData<List<EstateEntity>> {
         val query = SimpleSQLiteQuery(queryToConvert)
         Log.e("GET_ESTATES_BY_SEARCH","Query to execute : ${query.sql}")
-       // args.forEach {
-       //     if (it is Long) Log.e("GET_ESTATES_BY_SEARCH", "Args : ${SimpleDateFormat("dd/MM/yyyy").format(Date(it))}")
-        //    else Log.e("GET_ESTATES_BY_SEARCH", "Args : $it")
-     //   }
         return itemDataSource.getSearchEstate(query)
     }
 }
