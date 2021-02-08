@@ -99,11 +99,11 @@ class FragmentSearchEstate : Fragment() {
         var query = "SELECT * FROM estateInfo"
 
         if (type != "") {
-            query += " WHERE type = :$type"
+            query += " WHERE type = '$type'"
         }
 
         if (state == "available" || state == "sold") {
-            query += "WHERE status = $state"
+            query += "WHERE status = '$state'"
         }
 
 //        if (pointOfInterest != "") {
@@ -111,19 +111,19 @@ class FragmentSearchEstate : Fragment() {
 //        }
 
         if (priceMin != null) {
-            query += " AND price >= $priceMin"
+            query += " AND price >= '$priceMin'"
         }
 
         if (priceMax != null) {
-            query += " AND price <= $priceMax"
+            query += " AND price <= '$priceMax'"
         }
 
         if (beginSearchDate != null) {
-            query += " AND entry date >= $beginSearchDate"
+            query += " AND 'entry date' >= '$beginSearchDate'"
         }
 
         if (endSearchDate != null) {
-            query += " AND entry date <= $endSearchDate"
+            query += " AND 'entry date' <= '$endSearchDate'"
         }
 
 

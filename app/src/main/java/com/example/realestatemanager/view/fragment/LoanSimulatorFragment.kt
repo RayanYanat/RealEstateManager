@@ -42,7 +42,10 @@ class LoanSimulatorFragment : Fragment(){
                 if (seekBar != null) {
                     montantEmprunt = seekBar.progress
                     var montantMensuel = ((montantEmprunt * (taux/100) + montantEmprunt)/dureeEmprunt)
-                    mensualité.setText(String.format("%.2f","$montantMensuel"), TextView.BufferType.EDITABLE)                }
+                  //  mensualité.setText(String.format("%.2f", "$montantMensuel"), TextView.BufferType.EDITABLE)
+                     mensualité.text = montantMensuel.toString()
+
+                }
             }
         })
 

@@ -1,11 +1,14 @@
 package com.example.realestatemanager.view.fragment
 
-import android.R.attr
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +26,9 @@ import com.example.realestatemanager.injections.Injection
 import com.example.realestatemanager.utils.toFRDate
 import com.example.realestatemanager.utils.toFRString
 import com.example.realestatemanager.viewModel.FragmentCreateViewModel
+import com.google.android.material.internal.ContextUtils.getActivity
 import kotlinx.android.synthetic.main.fragment_create_estate.*
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -81,7 +86,7 @@ class CreateEstateFragment : Fragment() {
                 val statut = estate_statut.text.toString()
                 val agent = estate_agent.text.toString()
                 val entryDate = create_begin_date.text.toString().toFRDate()
-             //   val dateOfSale = create_end_date.text.toString().toFRDate()
+                //   val dateOfSale = create_end_date.text.toString().toFRDate()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
                 Log.d("TAG", "InsertListImageURI : $photoList ")
@@ -122,7 +127,7 @@ class CreateEstateFragment : Fragment() {
                 val statut = estate_statut.text.toString()
                 val agent = estate_agent.text.toString()
                 val entryDate = create_begin_date.text.toString().toFRDate()
-              //  val dateOfSale = create_end_date.text.toString().toFRDate()
+                //  val dateOfSale = create_end_date.text.toString().toFRDate()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
 
@@ -226,7 +231,7 @@ class CreateEstateFragment : Fragment() {
         add_picture_btn.setOnClickListener {
             val intent = Intent()
             intent.type = "image/*"
-            intent.action = Intent.ACTION_OPEN_DOCUMENT;
+            intent.action = Intent.ACTION_GET_CONTENT;
             startActivityForResult(Intent.createChooser(intent, "select a picture"),
                 RESULT_LOAD_IMG);
         }
@@ -235,13 +240,41 @@ class CreateEstateFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RESULT_LOAD_IMG) {
-            if (resultCode == RESULT_OK) {
-                val selectedImageUri: Uri? = data?.data
-                photoList.add(selectedImageUri.toString())
+            if (resultCode == RESULT_OK && data?.getData() !=null) {
+                val selectedImageUri: Uri? = data.data
+
+                val realPath = getImageFilePath(selectedImageUri!!,context!!)
+                Log.d("TAG", "realPath : $realPath ")
+
+
+                if (realPath != null) {
+                    photoList.add(realPath)
+                    Log.d("TAG", "geURI : $selectedImageUri ")
+                }
+
+
                 Log.d("TAG", "imageURI : ${selectedImageUri.toString()} ")
                 Log.d("TAG", "ListImageURI : $photoList ")
 
             }
         }
     }
+}
+
+fun getImageFilePath(uri: Uri, context: Context): String? {
+    val file = File(uri.path)
+    val filePath: List<String> = file.path.split(":")
+    val image_id = filePath[filePath.size - 1]
+    val cursor: Cursor = context.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        null,
+        MediaStore.Images.Media._ID + " = ? ",
+        arrayOf(image_id),
+        null)!!
+    if (cursor != null) {
+        cursor.moveToFirst()
+        val imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
+        cursor.close()
+        return imagePath
+    }
+    return null
 }

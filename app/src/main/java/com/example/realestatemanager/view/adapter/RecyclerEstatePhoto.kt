@@ -32,7 +32,8 @@ class RecyclerEstatePhoto (private val listEstateImage: List<Uri>): RecyclerView
         val estateItem = mData[position]
         Log.d("TAG", "currentUri : $estateItem ")
 
-        Glide.with(holder.estateImage.context).load(estateItem).into(holder.estateImage)
+       Glide.with(holder.estateImage.context).load(estateItem).into(holder.estateImage)
+
 
     }
 

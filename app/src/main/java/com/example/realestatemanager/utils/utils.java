@@ -18,13 +18,15 @@ public class utils {
         return (int) Math.round(dollars * 0.812);
     }
 
+    public static int convertEuroToDollar(int euro){ return (int) Math.round(euro * 1.2);}
+
     /**
      * Conversion de la date d'aujourd'hui en un format plus approprié
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
      * @return
      */
     public static String getTodayDate(){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         return dateFormat.format(new Date());
     }
 

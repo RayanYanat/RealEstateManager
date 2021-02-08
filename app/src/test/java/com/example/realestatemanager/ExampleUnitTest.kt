@@ -1,8 +1,11 @@
 package com.example.realestatemanager
 
+import com.example.realestatemanager.utils.utils
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -10,8 +13,20 @@ import org.junit.Assert.*
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+    private val nowDate = SimpleDateFormat("dd/MM/yyyy").format(Date())
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun convertDollarToEuro() {
+        assertEquals(16240, utils.convertDollarToEuro(20000))
+    }
+
+    @Test
+    fun convertEuroToDollar() {
+        assertEquals(24000, utils.convertEuroToDollar(20000))
+    }
+
+    @Test
+    fun getTodayDate() {
+        assertEquals(nowDate, utils.getTodayDate())
     }
 }
