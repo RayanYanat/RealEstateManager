@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.injections.Injection
+import com.example.realestatemanager.utils.URIPathHelper
 import com.example.realestatemanager.utils.toFRDate
 import com.example.realestatemanager.utils.toFRString
 import com.example.realestatemanager.viewModel.FragmentCreateViewModel
@@ -130,6 +131,8 @@ class CreateEstateFragment : Fragment() {
                 //  val dateOfSale = create_end_date.text.toString().toFRDate()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
+                Log.d("TAG", "UpdateInsertListImageURI : $photoList ")
+
 
                 val estate = EstateEntity(
                     type,
@@ -229,9 +232,8 @@ class CreateEstateFragment : Fragment() {
 
     fun retrieveImage() {
         add_picture_btn.setOnClickListener {
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT;
+            val intent = Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             startActivityForResult(Intent.createChooser(intent, "select a picture"),
                 RESULT_LOAD_IMG);
         }
@@ -243,38 +245,43 @@ class CreateEstateFragment : Fragment() {
             if (resultCode == RESULT_OK && data?.getData() !=null) {
                 val selectedImageUri: Uri? = data.data
 
-                val realPath = getImageFilePath(selectedImageUri!!,context!!)
-                Log.d("TAG", "realPath : $realPath ")
+                val uriPathHelper = URIPathHelper()
+                val filePath = uriPathHelper.getPath(this.context!!, selectedImageUri!!)
 
+                // val realPath = getImageFilePath(selectedImageUri!!,context!!)
+                // Log.d("TAG", "realPath : $realPath ")
+                estate_pic.setImageURI(selectedImageUri)
+                var pathUriPars = Uri.parse(filePath)
 
-                if (realPath != null) {
-                    photoList.add(realPath)
+                if (filePath != null) {
+                    photoList.add(filePath)
                     Log.d("TAG", "geURI : $selectedImageUri ")
+                    Log.d("TAG", "FullimageURI : $filePath ")
                 }
+            }
 
 
-                Log.d("TAG", "imageURI : ${selectedImageUri.toString()} ")
                 Log.d("TAG", "ListImageURI : $photoList ")
 
             }
         }
     }
-}
 
-fun getImageFilePath(uri: Uri, context: Context): String? {
-    val file = File(uri.path)
-    val filePath: List<String> = file.path.split(":")
-    val image_id = filePath[filePath.size - 1]
-    val cursor: Cursor = context.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-        null,
-        MediaStore.Images.Media._ID + " = ? ",
-        arrayOf(image_id),
-        null)!!
-    if (cursor != null) {
-        cursor.moveToFirst()
-        val imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-        cursor.close()
-        return imagePath
-    }
-    return null
-}
+
+//fun getImageFilePath(uri: Uri, context: Context): String? {
+//    val file = File(uri.path)
+//    val filePath: List<String> = file.path.split(":")
+//    val image_id = filePath[filePath.size - 1]
+//    val cursor: Cursor = context.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//        null,
+//        MediaStore.Images.Media._ID + " = ? ",
+//        arrayOf(image_id),
+//        null)!!
+//    if (cursor != null) {
+//        cursor.moveToFirst()
+//        val imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
+//        cursor.close()
+//        return imagePath
+//    }
+//    return null
+//}
