@@ -38,7 +38,7 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
     private var lat: Double? = 0.0
     private var lng: Double? = 0.0
 
-    private var imageUriList = ArrayList<Uri>()
+    private var imageUriList =ArrayList<String>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,15 +109,14 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
 
 
         val uriString = result.photo
-        Log.d("TAG", "uriString : $uriString ")
+       // Log.d("TAG", "uriString : $uriString ")
 
         if (uriString != null) {
             val listUriImage = uriString.split(",")
             Log.d("TAG", "listUriImage : $listUriImage ")
 
             listUriImage.forEach {
-                val uriPhoto = Uri.parse(it)
-                imageUriList.add(uriPhoto)
+                imageUriList.add(it)
                 Log.d("TAG", "imageUriList : $imageUriList ")
 
             }
@@ -125,6 +124,8 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
             adapter.setResults(imageUriList)
             Log.d("TAG", "fullImageUriList : $imageUriList ")
             adapter.notifyDataSetChanged()
+
+
         }
 
     }

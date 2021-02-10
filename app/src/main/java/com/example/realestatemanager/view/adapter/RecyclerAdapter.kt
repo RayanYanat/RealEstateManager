@@ -37,7 +37,9 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: 
 
         holder.itemType.text = estateItem.type
 
-        Glide.with(holder.itemView).load(estateItem.photo).apply(RequestOptions().centerCrop()).into(holder.itemMainPic)
+        holder.itemMainPic.setImageURI(Uri.parse(estateItem.photo))
+
+       // Glide.with(holder.itemView).load(estateItem.photo).apply(RequestOptions().centerCrop()).into(holder.itemMainPic)
     }
 
     override fun getItemCount(): Int {

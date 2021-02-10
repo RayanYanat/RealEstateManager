@@ -1,11 +1,8 @@
 package com.example.realestatemanager.view.fragment
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -27,9 +24,7 @@ import com.example.realestatemanager.utils.URIPathHelper
 import com.example.realestatemanager.utils.toFRDate
 import com.example.realestatemanager.utils.toFRString
 import com.example.realestatemanager.viewModel.FragmentCreateViewModel
-import com.google.android.material.internal.ContextUtils.getActivity
 import kotlinx.android.synthetic.main.fragment_create_estate.*
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -113,7 +108,7 @@ class CreateEstateFragment : Fragment() {
         } else {
             this.mViewModel.init(currentEstateId)
             getCurrentEstate(currentEstateId)
-            button.setText("Update")
+            button.text = "Update"
             button.setOnClickListener {
 
                 val type = estate_type.text.toString()
@@ -171,7 +166,7 @@ class CreateEstateFragment : Fragment() {
         estate_adress.setText(result.address)
         estate_statut.setText(result.status)
         estate_agent.setText(result.agentName)
-        create_begin_date.setText(result.entryDate?.toFRString())
+        create_begin_date.setText(result.entryDate.toFRString())
 
 
     }
@@ -234,17 +229,19 @@ class CreateEstateFragment : Fragment() {
         add_picture_btn.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.type = "image/*"
             startActivityForResult(Intent.createChooser(intent, "select a picture"),
-                RESULT_LOAD_IMG);
+                RESULT_LOAD_IMG)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RESULT_LOAD_IMG) {
-            if (resultCode == RESULT_OK && data?.getData() !=null) {
+            if (resultCode == RESULT_OK && data?.data !=null) {
                 val selectedImageUri: Uri? = data.data
 
+                
                 val uriPathHelper = URIPathHelper()
                 val filePath = uriPathHelper.getPath(this.context!!, selectedImageUri!!)
 
@@ -254,8 +251,8 @@ class CreateEstateFragment : Fragment() {
                 var pathUriPars = Uri.parse(filePath)
 
                 if (filePath != null) {
-                    photoList.add(filePath)
-                    Log.d("TAG", "geURI : $selectedImageUri ")
+                    photoList.add(selectedImageUri.toString())
+                    Log.d("TAG", "geURI : ${selectedImageUri} ")
                     Log.d("TAG", "FullimageURI : $filePath ")
                 }
             }

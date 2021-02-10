@@ -9,12 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.realestatemanager.R
 import kotlinx.android.synthetic.main.estate_image_item.view.*
+import java.io.File
 
-class RecyclerEstatePhoto (private val listEstateImage: List<Uri>): RecyclerView.Adapter<RecyclerEstatePhoto.EstateImageViewHolder>() {
+class RecyclerEstatePhoto (private val listEstateImage: List<String>): RecyclerView.Adapter<RecyclerEstatePhoto.EstateImageViewHolder>() {
 
-    private lateinit var  mData: List<Uri>
+    private lateinit var  mData: List<String>
 
-    fun setResults (data: List<Uri>) {
+    fun setResults (data: List<String>) {
         mData = data
     }
 
@@ -28,8 +29,10 @@ class RecyclerEstatePhoto (private val listEstateImage: List<Uri>): RecyclerView
 
     override fun onBindViewHolder(holder: EstateImageViewHolder, position: Int) {
         val estateItem = mData[position]
+        val uri = Uri.parse(estateItem)
         Log.d("TAG", "currentUri : $estateItem ")
-        Glide.with(holder.itemView).load(estateItem).into(holder.estateImage)
+        holder.estateImage.setImageURI(Uri.parse(estateItem))
+       // Glide.with(holder.itemView).load((Uri.parse(estateItem))).into(holder.estateImage)
     }
 
     override fun getItemCount(): Int {
@@ -38,7 +41,6 @@ class RecyclerEstatePhoto (private val listEstateImage: List<Uri>): RecyclerView
 
     class EstateImageViewHolder(view: View): RecyclerView.ViewHolder(view){
         val estateImage = view.image_estate_detail!!
-
 
     }
 }
