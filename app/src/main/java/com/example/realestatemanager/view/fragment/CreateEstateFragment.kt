@@ -1,9 +1,12 @@
 package com.example.realestatemanager.view.fragment
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,6 +17,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,6 +29,21 @@ import com.example.realestatemanager.utils.toFRDate
 import com.example.realestatemanager.utils.toFRString
 import com.example.realestatemanager.viewModel.FragmentCreateViewModel
 import kotlinx.android.synthetic.main.fragment_create_estate.*
+import kotlinx.android.synthetic.main.fragment_create_estate.add_picture_btn
+import kotlinx.android.synthetic.main.fragment_create_estate.create_begin_date
+import kotlinx.android.synthetic.main.fragment_create_estate.create_end_date
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_adress
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_agent
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_city
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_description
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_nb_bathroom
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_nb_bedroom
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_nb_room
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_price
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_statut
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_surface
+import kotlinx.android.synthetic.main.fragment_create_estate.estate_type
+import kotlinx.android.synthetic.main.fragment_create_estate_final.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,6 +54,10 @@ class CreateEstateFragment : Fragment() {
     private lateinit var button: Button
     private lateinit var mCheckboxContainer: LinearLayout
     private val RESULT_LOAD_IMG = 10
+
+    private val PERMISSION_CODE_READ = 1001
+    private val PERMISSION_CODE_WRITE = 1002
+    private val CAMERA_PIC_REQUEST = 1111
 
 
     private var day = 0
@@ -49,7 +72,7 @@ class CreateEstateFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_create_estate, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_create_estate_final, container, false)
         mViewModel =
             ViewModelProviders.of(this, Injection.provideViewModelFactory(this.context!!)).get(
                 FragmentCreateViewModel::class.java
@@ -65,7 +88,13 @@ class CreateEstateFragment : Fragment() {
         val currentEstateId = arguments?.getInt("ESTATE_ID")
 
         pickDate()
-        retrieveImage()
+        add_picture_btn.setOnClickListener {
+            checkPermissionForImage()
+        }
+
+        add_picture_btn_camera.setOnClickListener{
+            retrieveImageWithCamera()
+        }
 
         if (currentEstateId == null) {
             button.setOnClickListener {
@@ -226,59 +255,77 @@ class CreateEstateFragment : Fragment() {
     }
 
     fun retrieveImage() {
-        add_picture_btn.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK,
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.type = "image/*"
+             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             startActivityForResult(Intent.createChooser(intent, "select a picture"),
                 RESULT_LOAD_IMG)
-        }
+
+    }
+
+    fun retrieveImageWithCamera(){
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA_PIC_REQUEST);
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RESULT_LOAD_IMG) {
-            if (resultCode == RESULT_OK && data?.data !=null) {
-                val selectedImageUri: Uri? = data.data
+            if (resultCode == RESULT_OK) {
+                if (data?.data != null) {
+                    val selectedImageUri: Uri? = data.data
 
-                
-                val uriPathHelper = URIPathHelper()
-                val filePath = uriPathHelper.getPath(this.context!!, selectedImageUri!!)
 
-                // val realPath = getImageFilePath(selectedImageUri!!,context!!)
-                // Log.d("TAG", "realPath : $realPath ")
-                estate_pic.setImageURI(selectedImageUri)
-                var pathUriPars = Uri.parse(filePath)
+                    val uriPathHelper = URIPathHelper()
+                  //  val filePath = uriPathHelper.getPath(this.context!!, selectedImageUri!!)
 
-                if (filePath != null) {
-                    photoList.add(selectedImageUri.toString())
-                    Log.d("TAG", "geURI : ${selectedImageUri} ")
-                    Log.d("TAG", "FullimageURI : $filePath ")
+                    // val realPath = getImageFilePath(selectedImageUri!!,context!!)
+                    // Log.d("TAG", "realPath : $realPath ")
+                    //  var pathUriPars = Uri.fromFile(File(filePath))
+
+                        photoList.add(selectedImageUri.toString())
+                        Log.d("TAG", "geURI : ${selectedImageUri} ")
+                      //  Log.d("TAG", "FullimageURI : $filePath ")
+
+                } else if (data!!.clipData != null) {
+                    (0 until data.clipData!!.itemCount).forEach { i ->
+                        val uri = data.clipData!!.getItemAt(i).uri
+                        photoList.add(uri.toString())
+                    }
                 }
-            }
-
-
                 Log.d("TAG", "ListImageURI : $photoList ")
 
             }
+        }else if (resultCode == CAMERA_PIC_REQUEST){
+            if(resultCode == RESULT_OK){
+                if (data?.data != null){
+                    val selectedImageUri: Uri? = data.data
+                    photoList.add(selectedImageUri.toString())
+                }
+            }
+
         }
     }
 
+    private fun checkPermissionForImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission(context!!, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+                && (checkSelfPermission(context!!, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+            ) {
+                val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-//fun getImageFilePath(uri: Uri, context: Context): String? {
-//    val file = File(uri.path)
-//    val filePath: List<String> = file.path.split(":")
-//    val image_id = filePath[filePath.size - 1]
-//    val cursor: Cursor = context.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//        null,
-//        MediaStore.Images.Media._ID + " = ? ",
-//        arrayOf(image_id),
-//        null)!!
-//    if (cursor != null) {
-//        cursor.moveToFirst()
-//        val imagePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
-//        cursor.close()
-//        return imagePath
-//    }
-//    return null
-//}
+                requestPermissions(permission, PERMISSION_CODE_READ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
+                requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
+            } else {
+                retrieveImage()
+            }
+        }
+    }
+    }
+
+
+
+
+

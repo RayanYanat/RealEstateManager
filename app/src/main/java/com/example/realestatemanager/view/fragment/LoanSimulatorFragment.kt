@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_loan_simulation.*
 class LoanSimulatorFragment : Fragment(){
 
     var montantEmprunt = 0
-    var dureeEmprunt = 1
+    var dureeEmprunt = 0
     var taux :Double = 0.0
 
     override fun onCreateView(
@@ -42,9 +42,11 @@ class LoanSimulatorFragment : Fragment(){
                 if (seekBar != null) {
                     montantEmprunt = seekBar.progress
                     var montantMensuel = ((montantEmprunt * (taux/100) + montantEmprunt)/dureeEmprunt)
-                  //  mensualité.setText(String.format("%.2f", "$montantMensuel"), TextView.BufferType.EDITABLE)
-                     mensualité.text = montantMensuel.toString()
-
+                    if (taux == 0.0 && dureeEmprunt == 0){
+                        mensualité.text = montantEmprunt.toString()
+                    }else{
+                         mensualité.setText(String.format("%.2f", "$montantMensuel"), TextView.BufferType.EDITABLE)
+                    }
                 }
             }
         })

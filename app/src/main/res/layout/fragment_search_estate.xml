@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -130,11 +134,23 @@
         </LinearLayout>
     </LinearLayout>
 
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/estate_type_layout_search"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/search_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="type"/>
+        android:hint="type">
+    </com.google.android.material.textfield.TextInputEditText>
+
+</com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -205,7 +221,17 @@
         android:layout_marginStart="10dp"
         android:orientation="vertical">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_state_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_esate_state"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -214,12 +240,11 @@
             android:autofillHints=""
             android:clickable="true"
             android:focusable="true"
-            android:inputType="date"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor" >
 
+        </com.google.android.material.textfield.TextInputEditText>
 
-
-
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout_state"
@@ -227,7 +252,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_location_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/search_estate_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -236,10 +271,11 @@
             android:autofillHints=""
             android:clickable="true"
             android:focusable="true"
-            android:inputType="date"
-            tools:ignore="LabelFor" />
+            tools:ignore="LabelFor" >
 
+        </com.google.android.material.textfield.TextInputEditText>
 
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
@@ -255,4 +291,12 @@
         android:layout_margin="10dp"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_estate_search_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
 </LinearLayout>
+
+</ScrollView>

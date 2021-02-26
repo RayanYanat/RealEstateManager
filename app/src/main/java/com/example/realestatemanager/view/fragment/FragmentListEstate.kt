@@ -1,11 +1,15 @@
 package com.example.realestatemanager.view.fragment
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,6 +29,10 @@ class FragmentListEstate : Fragment(), RecyclerAdapter.ItemClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var mViewModel: FragmentListViewModel
 
+    private val PERMISSION_CODE_READ = 1001
+    private val PERMISSION_CODE_WRITE = 1002
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +45,7 @@ class FragmentListEstate : Fragment(), RecyclerAdapter.ItemClickListener {
             ViewModelProviders.of(this, Injection.provideViewModelFactory(this.context!!)).get(
                 FragmentListViewModel::class.java
             )
+        checkPermissionForImage()
         configureRecyclerView()
         return view
     }
@@ -71,6 +80,22 @@ class FragmentListEstate : Fragment(), RecyclerAdapter.ItemClickListener {
         bundle.putInt(ESTATE_ID, estate.id)
         fragmentDetailEstate.arguments = bundle
         transaction.replace(R.id.main_fragment, fragmentDetailEstate).commit()
+    }
+
+    private fun checkPermissionForImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((ContextCompat.checkSelfPermission(context!!,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+                && (ContextCompat.checkSelfPermission(context!!,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED)
+            ) {
+                val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+                requestPermissions(permission, PERMISSION_CODE_READ)
+                requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE)
+            }
+        }
     }
 
 }

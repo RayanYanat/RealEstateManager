@@ -27,6 +27,15 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: 
     override fun onBindViewHolder(holder: EsateViewHolder, position: Int) {
         var estateItem = mData[position]
 
+        var mainImage = estateItem.photo
+
+        if (mainImage != null) {
+            mainImage = mainImage.replace("[", "")
+            mainImage = mainImage.replace("]", "")
+            val listUriImage = mainImage.split(",")
+            holder.itemMainPic.setImageURI(Uri.parse(listUriImage[0]))
+        }
+
         holder.itemView.setOnClickListener(){
             listener.onItemClickListener(estateItem)
         }
@@ -37,7 +46,6 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: 
 
         holder.itemType.text = estateItem.type
 
-        holder.itemMainPic.setImageURI(Uri.parse(estateItem.photo))
 
        // Glide.with(holder.itemView).load(estateItem.photo).apply(RequestOptions().centerCrop()).into(holder.itemMainPic)
     }

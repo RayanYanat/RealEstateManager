@@ -20,6 +20,19 @@ import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_detail_estate.*
+import kotlinx.android.synthetic.main.fragment_detail_estate.address_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.agent_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.beginDate_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.detail_city
+import kotlinx.android.synthetic.main.fragment_detail_estate.detail_description
+import kotlinx.android.synthetic.main.fragment_detail_estate.detail_price
+import kotlinx.android.synthetic.main.fragment_detail_estate.endDate_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.nb_bathroom_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.nb_bedroom_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.nb_room_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.status_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate.surface_detail
+import kotlinx.android.synthetic.main.fragment_detail_estate_final.*
 import java.util.ArrayList
 
 
@@ -54,7 +67,7 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
 
-        val view: View = inflater.inflate(R.layout.fragment_detail_estate, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_detail_estate_final, container, false)
 
         val currentEstateId = arguments!!.getInt("ESTATE_ID")
         recyclerView = view.findViewById(R.id.fragment_estate_list_image_recyclerview)
@@ -88,14 +101,12 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
         nb_bathroom_detail.text = result.nbBathroom
         nb_bedroom_detail.text = result.nbBedroom
         address_detail.text = result.address
-        detail_type.text = result.type
         detail_city.text = result.city
         detail_price.text = result.price.toString()
         agent_detail.text = result.agentName
         status_detail.text = result.status
         beginDate_detail.text = result.entryDate.toFRString()
         endDate_detail.text = result.dateOfSale?.toFRString()
-        checkbox_detail.text = result.pointOfInterest.toString()
 
         this.result = result
         val address = result.address + " " + result.city
@@ -108,11 +119,47 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
 
-        val uriString = result.photo
+        var uriString = result.photo
+        var poI = result.pointOfInterest
        // Log.d("TAG", "uriString : $uriString ")
 
+        if (poI != null) {
+            poI = poI.replace("[", "")
+            poI = poI.replace("]", "")
+            val listPoI = poI.split(", ")
+            Log.d("TAG", "listpoI : $listPoI ")
+
+            listPoI.forEach {
+                if (it == "école"){
+                    image_school.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                }else{
+                    image_school.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                }
+
+                if (it == "commerce"){
+                    shop_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                }else{
+                    shop_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                }
+
+                if (it == "parc"){
+                    image_park.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                }else{
+                    image_park.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                }
+
+                if (it == "gare"){
+                    station_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                }else{
+                    station_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                }
+            }
+        }
+
         if (uriString != null) {
-            val listUriImage = uriString.split(",")
+            uriString = uriString.replace("[", "")
+            uriString = uriString.replace("]", "")
+            val listUriImage = uriString.split(", ")
             Log.d("TAG", "listUriImage : $listUriImage ")
 
             listUriImage.forEach {
@@ -185,7 +232,9 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
 
     private fun configureRecyclerView() {
         adapter = RecyclerEstatePhoto(imageUriList)
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        val mLayoutManager = LinearLayoutManager(activity)
+        mLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        recyclerView.layoutManager = mLayoutManager
         recyclerView.adapter = adapter
     }
 

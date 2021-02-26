@@ -8,107 +8,218 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/estate_type"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_type_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="type">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-        </EditText>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/estate_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="type">
 
-        <EditText
-            android:id="@+id/estate_city"
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_city_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:hint="city">
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-        </EditText>
+            <com.google.android.material.textfield.TextInputEditText
 
-        <EditText
+                android:id="@+id/estate_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="city">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_price_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="price">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_surface_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_surface"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="surface">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_nb_room_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_nb_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="20dp" 
             android:hint="nb de pieces">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_nb_bathroom_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_nb_bathroom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="nb of bathroom">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_nb_bedroom_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_nb_bedroom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="nb of bedroom">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_description_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="description">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_address_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_adress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="adresse">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_statut_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_statut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="statut">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
-        <EditText
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/estate_agent_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/estate_agent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:hint="agent">
 
-        </EditText>
+        </com.google.android.material.textfield.TextInputEditText>
 
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/checkbox_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -210,7 +321,7 @@
                     android:id="@+id/add_picture_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="add image"/>
+                    android:text="add image" />
 
                 <ImageView
                     android:id="@+id/estate_pic"
@@ -251,7 +362,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
-                    android:text="create estate"/>
+                    android:text="create estate" />
 
             </LinearLayout>
 

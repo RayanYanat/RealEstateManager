@@ -1,5 +1,6 @@
 package com.example.realestatemanager.view.adapter
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,10 +30,13 @@ class RecyclerEstatePhoto (private val listEstateImage: List<String>): RecyclerV
 
     override fun onBindViewHolder(holder: EstateImageViewHolder, position: Int) {
         val estateItem = mData[position]
-        val uri = Uri.parse(estateItem)
+        val uri = Uri.fromFile(File(estateItem))
         Log.d("TAG", "currentUri : $estateItem ")
-        holder.estateImage.setImageURI(Uri.parse(estateItem))
-       // Glide.with(holder.itemView).load((Uri.parse(estateItem))).into(holder.estateImage)
+       // holder.estateImage.setImageURI(Uri.parse(estateItem))
+        Glide.with(holder.itemView).load(Uri.parse(estateItem)).centerCrop().into(holder.estateImage)
+        //val bitmap = BitmapFactory.decodeFile(estateItem)
+
+        //holder.estateImage.setImageBitmap(bitmap)
     }
 
     override fun getItemCount(): Int {
