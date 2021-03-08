@@ -39,15 +39,13 @@ class ContentProviderTest {
 
     @Test
     fun insertAndGetItem(){
-        // ADDING DEMO ESTATE
         mContentResolver.insert(EstateProvider().URI_ESTATE, generateEstate())
 
-        // TEST
         val cursor = mContentResolver.query(ContentUris.withAppendedId(EstateProvider().URI_ESTATE, ESTATE_ID), null,null,null,null)
         assertNotNull(cursor)
         assertEquals(1,cursor?.count)
         assertEquals(true,cursor?.moveToFirst())
-        assertEquals("Adrien",cursor?.getString(cursor.getColumnIndexOrThrow("estateAgent")))
+        assertEquals("house",cursor?.getString(cursor.getColumnIndexOrThrow("type")))
     }
 
 

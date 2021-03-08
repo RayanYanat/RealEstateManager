@@ -21,7 +21,7 @@ interface EstateDao {
     fun  getSearchEstate(query: SupportSQLiteQuery) : LiveData<List<EstateEntity>>
 
     @Insert
-    fun insertEstate(estate: EstateEntity?)
+    fun insertEstate(estate: EstateEntity?) : Long
 
     @Delete
     fun deleteEstate(estate: EstateEntity?)

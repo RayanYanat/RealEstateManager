@@ -1,9 +1,9 @@
 package com.example.realestatemanager.view.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,7 +19,6 @@ import com.example.realestatemanager.viewModel.FragmentDetailViewModel
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_detail_estate.*
 import kotlinx.android.synthetic.main.fragment_detail_estate.address_detail
 import kotlinx.android.synthetic.main.fragment_detail_estate.agent_detail
 import kotlinx.android.synthetic.main.fragment_detail_estate.beginDate_detail
@@ -67,17 +66,20 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
 
-        val view: View = inflater.inflate(R.layout.fragment_detail_estate_final, container, false)
+         val view: View = inflater.inflate(R.layout.fragment_detail_estate_final, container, false)
 
-        val currentEstateId = arguments!!.getInt("ESTATE_ID")
-        recyclerView = view.findViewById(R.id.fragment_estate_list_image_recyclerview)
-        mViewModel =
-            ViewModelProviders.of(this, Injection.provideViewModelFactory(this.context!!)).get(
-                FragmentDetailViewModel::class.java
-            )
-        this.mViewModel.init(currentEstateId)
-        getCurrentEstate(currentEstateId)
-        configureRecyclerView()
+        if(arguments != null) {
+            val currentEstateId = arguments!!.getInt("ESTATE_ID")
+            recyclerView = view.findViewById(R.id.fragment_estate_list_image_recyclerview)
+            mViewModel =
+                ViewModelProviders.of(this, Injection.provideViewModelFactory(this.context!!)).get(
+                    FragmentDetailViewModel::class.java
+                )
+            this.mViewModel.init(currentEstateId)
+            getCurrentEstate(currentEstateId)
+            configureRecyclerView()
+        }
+
 
         return view
 
@@ -181,6 +183,7 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         val currentEstateId = arguments!!.getInt("ESTATE_ID")
+        val tabletFrag = activity!!.findViewById<FrameLayout>(R.id.list_detail_fragment)
 
 
         if (id == R.id.edit_estate) {
@@ -190,7 +193,12 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
             val transaction = activity!!.supportFragmentManager.beginTransaction()
             bundle.putInt(CURRENT_ESTATE_ID, currentEstateId)
             createEstateFragment.arguments = bundle
-            transaction.replace(R.id.main_fragment, createEstateFragment).commit()
+            if (tabletFrag != null) {
+                transaction.replace(R.id.list_detail_fragment, createEstateFragment).commit()
+            }else{
+                transaction.replace(R.id.main_fragment, createEstateFragment).commit()
+
+            }
         }
 
         return super.onOptionsItemSelected(item)

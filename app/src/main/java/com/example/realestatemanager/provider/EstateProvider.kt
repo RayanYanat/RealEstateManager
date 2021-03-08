@@ -42,10 +42,11 @@ return true    }
         if (context != null && values != null){
             Log.e("EstateContentProvider","ContentValues : $values")
             val index  = RoomDb.getAppDatabase(context!!).estateDao().insertEstate(EstateEntity().fromContentValues(values))
-            val longIndex = index.toString().toLong()
-            if (longIndex != 0L){
+            Log.e("ProviderIndex","Index : $index")
+            //val longIndex = index.toString().toLong()
+            if (index != 0L){
                 context!!.contentResolver.notifyChange(uri,null)
-                return ContentUris.withAppendedId(uri,longIndex)
+                return ContentUris.withAppendedId(uri,index)
             }
         }
 

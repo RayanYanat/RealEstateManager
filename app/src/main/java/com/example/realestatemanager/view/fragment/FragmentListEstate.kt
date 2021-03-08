@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -79,7 +80,13 @@ class FragmentListEstate : Fragment(), RecyclerAdapter.ItemClickListener {
         val transaction = activity!!.supportFragmentManager.beginTransaction()
         bundle.putInt(ESTATE_ID, estate.id)
         fragmentDetailEstate.arguments = bundle
-        transaction.replace(R.id.main_fragment, fragmentDetailEstate).commit()
+        val tabletFrag = activity!!.findViewById<FrameLayout>(R.id.list_detail_fragment)
+
+        if(tabletFrag != null) {
+            transaction.replace(R.id.list_detail_fragment, fragmentDetailEstate).commit()
+        }else{
+            transaction.replace(R.id.main_fragment, fragmentDetailEstate).commit()
+        }
     }
 
     private fun checkPermissionForImage() {

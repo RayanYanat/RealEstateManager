@@ -32,7 +32,9 @@ class GeocodeRepository(val application: Application) {
             }
 
             override fun onResponse(call: Call<Example>, resp: Response<Example>) {
-                response.value = (resp.body() as Example).results?.get(0)
+                if (resp.body() != null) {
+                    response.value = (resp.body() as Example).results?.get(0)
+                }
             }
 
         })

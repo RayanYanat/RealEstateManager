@@ -111,7 +111,7 @@ class CreateEstateFragment : Fragment() {
                 val statut = estate_statut.text.toString()
                 val agent = estate_agent.text.toString()
                 val entryDate = create_begin_date.text.toString().toFRDate()
-                //   val dateOfSale = create_end_date.text.toString().toFRDate()
+               // val dateOfSale = create_end_date.text.toString().toFRDate()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
                 Log.d("TAG", "InsertListImageURI : $photoList ")
@@ -277,7 +277,7 @@ class CreateEstateFragment : Fragment() {
                     val selectedImageUri: Uri? = data.data
 
 
-                    val uriPathHelper = URIPathHelper()
+                  //  val uriPathHelper = URIPathHelper()
                   //  val filePath = uriPathHelper.getPath(this.context!!, selectedImageUri!!)
 
                     // val realPath = getImageFilePath(selectedImageUri!!,context!!)

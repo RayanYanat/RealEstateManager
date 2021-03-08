@@ -1,9 +1,6 @@
 package com.example.realestatemanager
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkInfo
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
+
 import com.example.realestatemanager.utils.utils
 import org.junit.Assert.*
 import org.junit.Test
