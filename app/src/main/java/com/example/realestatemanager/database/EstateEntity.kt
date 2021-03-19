@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import com.example.realestatemanager.utils.toFRDate
 import java.util.*
 

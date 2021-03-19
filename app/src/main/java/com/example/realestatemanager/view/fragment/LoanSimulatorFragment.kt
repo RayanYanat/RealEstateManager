@@ -32,7 +32,7 @@ class LoanSimulatorFragment : Fragment(){
 
         montant_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                montant_emprunté.text = progress.toString()
+                montant_emprunté.text = progress.toString() + " euros"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -45,7 +45,7 @@ class LoanSimulatorFragment : Fragment(){
                     if (taux == 0.0 && dureeEmprunt == 0){
                         mensualité.text = montantEmprunt.toString()
                     }else{
-                         mensualité.setText(String.format("%.2f", "$montantMensuel"), TextView.BufferType.EDITABLE)
+                         mensualité.setText(String.format("%.2f",montantMensuel) + " euros", TextView.BufferType.EDITABLE)
                     }
                 }
             }
@@ -53,7 +53,7 @@ class LoanSimulatorFragment : Fragment(){
 
         durée_seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                durée_emprunt.text = progress.toString()
+                durée_emprunt.text = progress.toString() + " months"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -63,7 +63,7 @@ class LoanSimulatorFragment : Fragment(){
                 if (seekBar != null) {
                     dureeEmprunt = seekBar.progress
                     var montantMensuel = (montantEmprunt * (taux/100) + montantEmprunt)/dureeEmprunt
-                    mensualité.setText(String.format("%.2f",montantMensuel), TextView.BufferType.EDITABLE)                }
+                    mensualité.setText(String.format("%.2f",montantMensuel) + " euros", TextView.BufferType.EDITABLE)                }
             }
 
         })
@@ -71,7 +71,7 @@ class LoanSimulatorFragment : Fragment(){
         taux_seekbar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 var decimalTaux : Double = progress/10.0
-                taux_emprunt.text = decimalTaux.toString()
+                taux_emprunt.text = decimalTaux.toString() + " %"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -81,7 +81,7 @@ class LoanSimulatorFragment : Fragment(){
                 if (seekBar != null) {
                     taux = seekBar.progress/10.0
                     var montantMensuel = ((montantEmprunt * (taux/100)) + montantEmprunt)/dureeEmprunt
-                    mensualité.setText(String.format("%.2f",montantMensuel), TextView.BufferType.EDITABLE)
+                    mensualité.setText(String.format("%.2f",montantMensuel) + " euros", TextView.BufferType.EDITABLE)
                     Log.d("TAG", "taux : $taux ")
                     Log.d("TAG", "mensualité : $montantMensuel ")
 

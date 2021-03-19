@@ -11,8 +11,7 @@ import java.util.concurrent.Executor
 
 class FragmentDetailViewModel(
     app: Application,
-    private val itemDataSource: EstateRepository,
-    private val executor: Executor
+    private val itemDataSource: EstateRepository,executor: Executor
 ): AndroidViewModel(app){
 
     lateinit var  currentEstate: LiveData<EstateEntity>

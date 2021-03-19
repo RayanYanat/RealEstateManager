@@ -24,7 +24,7 @@ return true    }
         selection: String?,
         selectionArgs: Array<out String>?,
         sortOrder: String?
-    ): Cursor? {
+    ): Cursor {
         if (context != null){
             val index:Long = ContentUris.parseId(uri)
             val cursor = RoomDb.getAppDatabase(context!!).estateDao().getItemsWithCursor(index)
@@ -35,7 +35,7 @@ return true    }
         throw IllegalArgumentException("Failed to query row for uri $uri")
     }
 
-    override fun getType(uri: Uri): String? {
+    override fun getType(uri: Uri): String {
         return "vnd.android.cursor.item/$AUTHORITY.$TABLE_NAME"    }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {

@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import kotlinx.android.synthetic.main.esate_item.view.*
-import java.io.File
 
 class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: ItemClickListener) : RecyclerView.Adapter<RecyclerAdapter.EsateViewHolder>() {
 
@@ -33,7 +31,8 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: 
             mainImage = mainImage.replace("[", "")
             mainImage = mainImage.replace("]", "")
             val listUriImage = mainImage.split(",")
-            holder.itemMainPic.setImageURI(Uri.parse(listUriImage[0]))
+            //holder.itemMainPic.setImageURI(Uri.parse(listUriImage[0]))
+            Glide.with(holder.itemView).load(Uri.parse(listUriImage[0])).centerCrop().into(holder.itemMainPic)
         }
 
         holder.itemView.setOnClickListener(){
@@ -46,8 +45,6 @@ class RecyclerAdapter(private val listEstate: List<EstateEntity>, val listener: 
 
         holder.itemType.text = estateItem.type
 
-
-       // Glide.with(holder.itemView).load(estateItem.photo).apply(RequestOptions().centerCrop()).into(holder.itemMainPic)
     }
 
     override fun getItemCount(): Int {

@@ -1,4 +1,4 @@
-package com.example.realestatemanager.repository
+ package com.example.realestatemanager.repository
 
 import android.app.Application
 import android.widget.Toast
@@ -11,13 +11,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.net.ssl.SSLEngineResult
 
 class GeocodeRepository(val application: Application) {
 
     val response = MutableLiveData<Result>()
 
-    fun getGeocodedLocation(address: String, key:String){
+    fun getGeocodedLocation(address: String, key:String): MutableLiveData<Result> {
+        val responseData = MutableLiveData<Result>()
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://maps.google.com/maps/api/geocode/")
@@ -34,9 +34,11 @@ class GeocodeRepository(val application: Application) {
             override fun onResponse(call: Call<Example>, resp: Response<Example>) {
                 if (resp.body() != null) {
                     response.value = (resp.body() as Example).results?.get(0)
+                    responseData.value = (resp.body() as Example).results?.get(0)
                 }
             }
 
         })
+        return responseData
     }
 }

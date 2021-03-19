@@ -1,7 +1,7 @@
 package com.example.realestatemanager.utils;
 
 import com.example.realestatemanager.model.Example;
-import com.example.realestatemanager.model.Result;
+
 
 import retrofit2.Call;
 import retrofit2.http.GET;

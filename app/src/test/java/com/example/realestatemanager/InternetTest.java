@@ -8,7 +8,7 @@ import android.net.NetworkInfo;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.example.realestatemanager.utils.Utils;
+
 import com.example.realestatemanager.utils.utils;
 
 import org.junit.Test;

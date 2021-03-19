@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
-
+    // display fragment when user select a item from the menu
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         val createEstateFragment = CreateEstateFragment()
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-
+    //manage DetailFragment in tablet mode
     private fun configureAndShowDetailFragment() {
         val tabletFrag = findViewById<FrameLayout>(R.id.list_detail_fragment)
 

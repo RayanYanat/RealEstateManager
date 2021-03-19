@@ -13,10 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -24,25 +21,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.realestatemanager.R
 import com.example.realestatemanager.database.EstateEntity
 import com.example.realestatemanager.injections.Injection
-import com.example.realestatemanager.utils.URIPathHelper
 import com.example.realestatemanager.utils.toFRDate
 import com.example.realestatemanager.utils.toFRString
 import com.example.realestatemanager.viewModel.FragmentCreateViewModel
-import kotlinx.android.synthetic.main.fragment_create_estate.*
-import kotlinx.android.synthetic.main.fragment_create_estate.add_picture_btn
-import kotlinx.android.synthetic.main.fragment_create_estate.create_begin_date
-import kotlinx.android.synthetic.main.fragment_create_estate.create_end_date
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_adress
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_agent
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_city
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_description
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_nb_bathroom
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_nb_bedroom
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_nb_room
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_price
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_statut
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_surface
-import kotlinx.android.synthetic.main.fragment_create_estate.estate_type
 import kotlinx.android.synthetic.main.fragment_create_estate_final.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -86,7 +67,7 @@ class CreateEstateFragment : Fragment() {
         mCheckboxContainer = view.findViewById(R.id.checkbox_container)
 
         val currentEstateId = arguments?.getInt("ESTATE_ID")
-
+  
         pickDate()
         add_picture_btn.setOnClickListener {
             checkPermissionForImage()
@@ -111,7 +92,7 @@ class CreateEstateFragment : Fragment() {
                 val statut = estate_statut.text.toString()
                 val agent = estate_agent.text.toString()
                 val entryDate = create_begin_date.text.toString().toFRDate()
-               // val dateOfSale = create_end_date.text.toString().toFRDate()
+                val dateOfSale = create_end_date.text.toString()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
                 Log.d("TAG", "InsertListImageURI : $photoList ")
@@ -128,11 +109,17 @@ class CreateEstateFragment : Fragment() {
                     pointOfInterest,
                     statut,
                     entryDate!!,
-                    null,
+                    if (dateOfSale != ""){
+                                         dateOfSale.toFRDate()
+                                         }else{
+                                              null
+                                              },
                     agent,
                     city,
                     photoList.toString())
                 mViewModel.createEstate(estate)
+                Toast.makeText(context, "estate created ", Toast.LENGTH_SHORT).show()
+
             }
         } else {
             this.mViewModel.init(currentEstateId)
@@ -152,7 +139,7 @@ class CreateEstateFragment : Fragment() {
                 val statut = estate_statut.text.toString()
                 val agent = estate_agent.text.toString()
                 val entryDate = create_begin_date.text.toString().toFRDate()
-                //  val dateOfSale = create_end_date.text.toString().toFRDate()
+                val dateOfSale = create_end_date.text.toString()
                 val pointOfInterest = retrieveSelectedCheckbox().toString()
 
                 Log.d("TAG", "UpdateInsertListImageURI : $photoList ")
@@ -170,13 +157,18 @@ class CreateEstateFragment : Fragment() {
                     pointOfInterest,
                     statut,
                     entryDate!!,
-                    null,
+                    if (dateOfSale != ""){
+                        dateOfSale.toFRDate()
+                    }else{
+                        null
+                    },
                     agent,
                     city,
                     photoList.toString()
                 )
                 estate.id = currentEstateId
                 mViewModel.updateEstate(estate)
+                Toast.makeText(context, "estate updated ", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -196,6 +188,9 @@ class CreateEstateFragment : Fragment() {
         estate_statut.setText(result.status)
         estate_agent.setText(result.agentName)
         create_begin_date.setText(result.entryDate.toFRString())
+        if (result.dateOfSale.toString() != ""){
+            create_end_date.setText(result.dateOfSale?.toFRString())
+        }
 
 
     }
@@ -254,6 +249,7 @@ class CreateEstateFragment : Fragment() {
         return selectedCheckboxes
     }
 
+    //retrieve image from gallery
     fun retrieveImage() {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -264,6 +260,7 @@ class CreateEstateFragment : Fragment() {
 
     }
 
+    //retrieve image from camera
     fun retrieveImageWithCamera(){
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, CAMERA_PIC_REQUEST);
@@ -276,17 +273,8 @@ class CreateEstateFragment : Fragment() {
                 if (data?.data != null) {
                     val selectedImageUri: Uri? = data.data
 
-
-                  //  val uriPathHelper = URIPathHelper()
-                  //  val filePath = uriPathHelper.getPath(this.context!!, selectedImageUri!!)
-
-                    // val realPath = getImageFilePath(selectedImageUri!!,context!!)
-                    // Log.d("TAG", "realPath : $realPath ")
-                    //  var pathUriPars = Uri.fromFile(File(filePath))
-
                         photoList.add(selectedImageUri.toString())
                         Log.d("TAG", "geURI : ${selectedImageUri} ")
-                      //  Log.d("TAG", "FullimageURI : $filePath ")
 
                 } else if (data!!.clipData != null) {
                     (0 until data.clipData!!.itemCount).forEach { i ->
@@ -316,8 +304,8 @@ class CreateEstateFragment : Fragment() {
                 val permission = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
                 val permissionCoarse = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
-                requestPermissions(permission, PERMISSION_CODE_READ) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_READ LIKE 1001
-                requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE) // GIVE AN INTEGER VALUE FOR PERMISSION_CODE_WRITE LIKE 1002
+                requestPermissions(permission, PERMISSION_CODE_READ)
+                requestPermissions(permissionCoarse, PERMISSION_CODE_WRITE)
             } else {
                 retrieveImage()
             }

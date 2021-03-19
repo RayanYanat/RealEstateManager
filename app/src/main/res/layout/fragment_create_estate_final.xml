@@ -7,7 +7,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
@@ -16,9 +16,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="Estate info"
+        android:text="@string/estate_info"
         android:textColor="#1C0259"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="statut">
+            android:hint="@string/statut">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="surface">
+            android:hint="@string/surface">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -114,7 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="price">
+            android:hint="@string/price">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="nb de pieces">
+            android:hint="@string/nb_de_pieces">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -160,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="nb of bathroom">
+            android:hint="@string/nb_of_bathroom">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -183,7 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="nb of bedroom">
+            android:hint="@string/nb_of_bedroom">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -205,7 +205,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="description">
+            android:hint="@string/description">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -226,7 +226,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date de mise en vente" />
+        android:text="@string/date_de_mise_en_vente" />
 
     <EditText
         android:id="@+id/create_begin_date"
@@ -256,7 +256,7 @@
         android:id="@+id/endDate_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date de vente" />
+        android:text="@string/date_de_vente" />
 
     <EditText
         android:id="@+id/create_end_date"
@@ -288,7 +288,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="agent">
+            android:hint="@string/agent">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -300,9 +300,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Estate location"
+        android:text="@string/estate_location"
         android:textColor="#1C0259"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -324,7 +324,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="adresse">
+            android:hint="@string/adresse">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -347,7 +347,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:hint="city">
+            android:hint="@string/city">
 
         </com.google.android.material.textfield.TextInputEditText>
 
@@ -355,7 +355,6 @@
 
     <LinearLayout
 
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/checkbox_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -368,7 +367,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="point of interest :  "
+            android:text="@string/point_of_interest"
             android:textColor="@color/design_default_color_on_secondary" />
 
         <LinearLayout
@@ -383,14 +382,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tag="école"
-                android:text="école" />
+                android:text="@string/cole" />
 
             <CheckBox
                 android:id="@+id/estate_commerce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tag="commerce"
-                android:text="commerce" />
+                android:text="@string/commerce" />
 
 
         </LinearLayout>
@@ -407,14 +406,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tag="parc"
-                android:text="parc" />
+                android:text="@string/parc" />
 
             <CheckBox
                 android:id="@+id/estate_gare"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tag="gare"
-                android:text="gare" />
+                android:text="@string/gare" />
 
 
         </LinearLayout>
@@ -427,7 +426,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:text="add image"
+        android:text="@string/add_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/checkbox_container"/>
     <Button
@@ -436,7 +435,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
-        android:text="camera image"
+        android:text="@string/camera_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/add_picture_btn"/>
 
@@ -444,7 +443,7 @@
         android:id="@+id/create_estate_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="create estate"
+        android:text="@string/create_estate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/add_picture_btn"
         app:layout_constraintTop_toBottomOf="@id/add_picture_btn_camera"/>

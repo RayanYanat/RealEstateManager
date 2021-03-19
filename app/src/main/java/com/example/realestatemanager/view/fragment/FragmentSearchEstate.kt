@@ -21,7 +21,6 @@ import com.example.realestatemanager.injections.Injection
 import com.example.realestatemanager.utils.toFRDate
 import com.example.realestatemanager.view.adapter.RecyclerAdapter
 import com.example.realestatemanager.viewModel.FragmentSearchViewModel
-import kotlinx.android.synthetic.main.fragment_create_estate.*
 import kotlinx.android.synthetic.main.fragment_search_estate.*
 import java.text.SimpleDateFormat
 import java.util.*

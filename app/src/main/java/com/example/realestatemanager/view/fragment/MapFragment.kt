@@ -90,16 +90,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
         mViewModel.getAllEstate()
-            .observe(viewLifecycleOwner, Observer<List<EstateEntity>> { displayNearbyEstate(it!!) })
+            .observe(viewLifecycleOwner, Observer<List<EstateEntity>> { displayNearbyEstate(it!!)  })
 
     }
 
     private fun displayNearbyEstate(estateResults: List<EstateEntity>) {
 
+        Log.d("TAG", "estateResults : $estateResults")
+
         (estateResults.indices).forEach {
             val address = estateResults[it].address
-            mViewModel.getGeocodedLocation(address, apiKey)
-
+            Log.d("TAG", "estateAddress : $address")
             retrieveAddressLocation(estateResults[it])
 
         }
@@ -120,7 +121,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun retrieveAddressLocation(estate: EstateEntity) {
-        mViewModel.response.observe(viewLifecycleOwner, Observer {
+        mViewModel.getGeocodedLocation(estate.address, apiKey).observe(viewLifecycleOwner, Observer {
             if (it != null)
                 Toast.makeText(context, "Success wile accessing the API", Toast.LENGTH_SHORT).show()
 
@@ -135,14 +136,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 val markerOptions = MarkerOptions()
                 markerOptions.position(estatePosition)
                 markerOptions.title(estate.address)
+                Log.d("TAG", "estateAddress : ${estate.address}")
+
                 val marker: Marker = googleMap!!.addMarker(markerOptions)
                 marker.tag = estate.id
                 Log.d("TAG", "estatePosition : $estatePosition")
 
-            }
+            } 
         })
     }
 
 }
-
+ 
 

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,18 +20,6 @@ import com.example.realestatemanager.viewModel.FragmentDetailViewModel
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_detail_estate.address_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.agent_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.beginDate_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.detail_city
-import kotlinx.android.synthetic.main.fragment_detail_estate.detail_description
-import kotlinx.android.synthetic.main.fragment_detail_estate.detail_price
-import kotlinx.android.synthetic.main.fragment_detail_estate.endDate_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.nb_bathroom_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.nb_bedroom_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.nb_room_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.status_detail
-import kotlinx.android.synthetic.main.fragment_detail_estate.surface_detail
 import kotlinx.android.synthetic.main.fragment_detail_estate_final.*
 import java.util.ArrayList
 
@@ -123,7 +112,6 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
 
         var uriString = result.photo
         var poI = result.pointOfInterest
-       // Log.d("TAG", "uriString : $uriString ")
 
         if (poI != null) {
             poI = poI.replace("[", "")
@@ -133,27 +121,27 @@ class FragmentDetailEstate : Fragment(), OnMapReadyCallback {
 
             listPoI.forEach {
                 if (it == "école"){
-                    image_school.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                    image_school.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_check_24,null))
                 }else{
-                    image_school.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                    image_school.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_close_24,null))
                 }
 
                 if (it == "commerce"){
-                    shop_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                    shop_image.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_check_24,null))
                 }else{
-                    shop_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                    shop_image.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_close_24,null))
                 }
 
                 if (it == "parc"){
-                    image_park.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                    image_park.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_check_24,null))
                 }else{
-                    image_park.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                    image_park.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_close_24,null))
                 }
 
                 if (it == "gare"){
-                    station_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_check_24))
+                    station_image.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_check_24,null))
                 }else{
-                    station_image.setImageDrawable(resources.getDrawable(R.drawable.ic_baseline_close_24))
+                    station_image.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_close_24,null))
                 }
             }
         }
