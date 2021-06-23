@@ -26,3 +26,4 @@ L’application est utilisable sur smartphone et tablette en mode portrait et pa
 * Retrofit
 * RxJava
 * Dependency Injection
+* Content Provider
